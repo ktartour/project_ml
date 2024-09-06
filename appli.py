@@ -1,7 +1,8 @@
 import streamlit as st
 from sections.nailsdetection.nails import side_bar_nails, initalize_variables, print_info, treatment_nails
 from sections.regression.regression import regression_page
-from sections.classification.classification_tab_contents import tab2_content, tab3_content
+from sections.classification.classification_tab_contents import tab2_content, tab3_content,tab4_content
+from sections.classification.Preparation_df import classification_page
 
 st.set_page_config(
     page_title="Playground ML",
@@ -23,14 +24,14 @@ elif type_data == "Classification":
     with tab1:
         st.header("Preparation")
         st.write("test")
-
+        classification_page()
     with tab2:
         tab_visit, liste_col, list_choice2, df = tab2_content(tab_visit)
     with tab3:
         tab3_content(tab_visit, liste_col, list_choice2, df)
     with tab4:
         st.header("Try a CNN")
-
+        tab4_content(tab_visit,liste_col, df)
 
 elif type_data == "NailsDetection":
     uploaded_file,confidence_threshold = side_bar_nails()

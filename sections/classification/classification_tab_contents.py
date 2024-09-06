@@ -3,7 +3,8 @@ import pandas as pd
 from sections.classification.ML_model import standardization_features, auto_ML_selection
 from sections.classification.ml_model_choice import choice_split_dataset,choice_cut_dataframe,choice_standardization_features,choice_Balancing,choice_auto_ML_selection
 from sections.classification.Analyse_df import colinearities, explicative_columns, load_and_encode,histogram_plot, pairplots,correlation_table
-
+import streamlit as st
+from sections.classification.cnn_model import cnn_modeling
 
 def tab2_content(tab_visit):
     list_choice2=[]
@@ -49,5 +50,12 @@ def tab3_content(tab_visit, liste_col, list_choice2,df):
         choice_auto_ML_selection(X_train, X_test, y_train, y_test)
 
 
+    else:
+        st.write(f"Start by running the analyse tab")
+
+def tab4_content(tab_visit,liste_col,df):
+    if tab_visit == "tab2":
+        st.write("test")
+        #cnn_modeling(liste_col,df)
     else:
         st.write(f"Start by running the analyse tab")

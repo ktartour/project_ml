@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from inference_sdk import InferenceHTTPClient
+#from inference_sdk import InferenceHTTPClient
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
