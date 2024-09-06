@@ -1,0 +1,4 @@
+.venve
+.idea
+.env        #Ignore le fichier .env dans le commit to github git log
+__pycache__/        #fichier où sont les fichier compilés; les .pyc
