@@ -22,8 +22,7 @@ elif type_data == "Classification":
     tab_visit = "None"
     tab1, tab2, tab3, tab4 = st.tabs(["Preparation", "Analyse", "play with parameters","Try a CNN"])
     with tab1:
-        st.header("Preparation")
-        st.write("test")
+
         classification_page()
     with tab2:
         tab_visit, liste_col, list_choice2, df = tab2_content(tab_visit)

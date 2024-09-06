@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff62600f-450e-45f1-972b-47b1d303d8fb" name="Changes" comment="With preparation">
+    <list default="true" id="ff62600f-450e-45f1-972b-47b1d303d8fb" name="Changes" comment="With CNN">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appli.py" beforeDir="false" afterPath="$PROJECT_DIR$/appli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sections/classification/classification_tab_contents.py" beforeDir="false" afterPath="$PROJECT_DIR$/sections/classification/classification_tab_contents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sections/classification/cnn_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/sections/classification/cnn_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -15,6 +15,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory"><![CDATA[{
@@ -41,7 +46,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Kevin",
     "last_opened_file_path": "/home/kevin/PycharmProjects/project_ml"
   }
 }]]></component>
@@ -90,13 +95,22 @@
       <option name="project" value="LOCAL" />
       <updated>1725632207948</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="With CNN">
+      <option name="closed" value="true" />
+      <created>1725633075507</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1725633075507</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test2" />
     <MESSAGE value="Full project" />
     <MESSAGE value="With preparation" />
-    <option name="LAST_COMMIT_MESSAGE" value="With preparation" />
+    <MESSAGE value="With CNN" />
+    <option name="LAST_COMMIT_MESSAGE" value="With CNN" />
   </component>
 </project>

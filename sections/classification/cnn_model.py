@@ -12,16 +12,37 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def standardization_features2(df, list_columns):
-    df2= pd.DataFrame()
-# standardization of columns of list_to_norm
-    for col in list_columns:
-        df2[col] = (df[col] - df[col].mean()) / df[col].std()
+def choice_standardization_features2(df, list_columns):
+    df2 = pd.DataFrame()
 
+    if st.checkbox("Standardize some columns for CNN?"):
+        if st.checkbox("Standardize all columns for CNN?"):
+            for col in list_columns:
+               df2[col] = (df[col] - df[col].mean()) / df[col].std()
+        else:
+            list_col_to_std = st.multiselect("Define the features to standardize for CNN", options=list_columns,
+                                              default=list_columns)
+            for col in list_col_to_std:
+                df2[col] = (df[col] - df[col].mean()) / df[col].std()
+    else:
+        df2 = df.copy()
     df2["target"]=df["target"]
     return df2
 def cnn_modeling(df,list_columns):
-    df_norm = standardization_features2(df, list_columns)
+    df_norm = choice_standardization_features2(df, list_columns)
+    #Select parameter for the CNN, number of layers, number of neurons, type of activation function
+    nb_of_layers = st.slider('How many layers of neurons?',
+        4, 8, 4,1
+    )
+    nb_of_neurons = st.slider('How many neurons per layer?',
+                      16, 128, 64, 8
+                      )
+    type_data = st.radio(
+        "Choice you activation function",
+        ["relu", "sigmoid", "tanh"]
+    )
+
+
 # Split the data into X (features) and y (target)
     X = df_norm.drop(columns=['target'])
     y = df_norm['target']
@@ -37,12 +58,16 @@ def cnn_modeling(df,list_columns):
     model = Sequential()
 
     # Input layer (number of neurons = number of features in your data)
-    model.add(Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
+    model.add(Dense(nb_of_neurons, activation=type_data, input_shape=(X_train.shape[1],)))
+    nb_of_layers_to_implement = nb_of_layers -2
+    #1st hidden layer
+    model.add(Dense(int(nb_of_neurons / 2), activation=type_data))
 
+    for i in range(nb_of_layers_to_implement):
     # Hidden layers
-    model.add(Dense(32, activation='relu'))
-    model.add(Dropout(0.5))  # Dropout to reduce overfitting
-    model.add(Dense(16, activation='relu'))
+        model.add(Dropout(0.5))  # Dropout to reduce overfitting
+        model.add(Dense(int(nb_of_neurons/(2**(i+1))), activation=type_data))
+
 
     # Output layer (3 neurons for 3 classes, with softmax activation)
     model.add(Dense(3, activation='softmax'))
