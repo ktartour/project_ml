@@ -31,7 +31,7 @@ elif type_data == "Classification":
         tab3_content(tab_visit, liste_col, list_choice2, df)
     with tab4:
         st.header("Try a CNN")
-        tab4_content(tab_visit,liste_col, df)
+        tab4_content(tab_visit,list_choice2, df)
 
 elif type_data == "NailsDetection":
     uploaded_file,confidence_threshold = side_bar_nails()

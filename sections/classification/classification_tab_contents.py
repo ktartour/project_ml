@@ -55,7 +55,7 @@ def tab3_content(tab_visit, liste_col, list_choice2,df):
 
 def tab4_content(tab_visit,liste_col,df):
     if tab_visit == "tab2":
-        st.write("test")
-        #cnn_modeling(liste_col,df)
+
+        cnn_modeling(df,liste_col)
     else:
         st.write(f"Start by running the analyse tab")

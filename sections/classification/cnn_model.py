@@ -65,17 +65,28 @@ def cnn_modeling(df,list_columns):
 
     y_pred = model.predict(X_test)
     y_pred_classes = np.argmax(y_pred, axis=1)
-    st.write(classification_report(y_test, y_pred_classes))
-    #Generate a confusion matrix
-    from sklearn.metrics import confusion_matrix
-    y_pred = model.predict(X_test)
-    y_pred_classes = np.argmax(y_pred, axis=1)
-    cm = confusion_matrix(y_test, y_pred_classes)
 
-    #plot the confusion matrix
-    from sklearn.metrics import confusion_matrix
 
-    sns.heatmap(cm, annot=True, fmt='d', cmap="Blues")
-    plt.xlabel('Predicted')
-    plt.ylabel('True')
-    st.pyplot(fig)
+    report_dict = classification_report(y_test, y_pred_classes, output_dict=True)  # Set output_dict=True to return a dictionary
+    df_classification_report = pd.DataFrame(report_dict)
+    st.write(f"The model has the following performance:")
+    st.write(df_classification_report)
+
+    with st.expander("See confusion matrix"):
+        #Generate a confusion matrix
+        from sklearn.metrics import confusion_matrix
+        y_pred = model.predict(X_test)
+        y_pred_classes = np.argmax(y_pred, axis=1)
+        cm = confusion_matrix(y_test, y_pred_classes)
+
+        #plot the confusion matrix
+        from sklearn.metrics import confusion_matrix
+
+        fig, ax = plt.subplots()
+        sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", ax=ax)
+        ax.set_xlabel("Predicted Label")
+        ax.set_ylabel("True Label")
+        ax.set_title(f"Confusion Matrix")
+
+        # Show the plot in Streamlit
+        st.pyplot(fig)  # Now we pass the created figure object to Streamlit
