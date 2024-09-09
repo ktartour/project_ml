@@ -1,13 +1,19 @@
 import streamlit as st
 import pandas as pd
 import pickle
-import os
 import glob
 import ast
 
 #Download a Excelfile with columns alcohol,malic_acid,ash,alcalinity_of_ash	magnesium,total_phenols	flavanoids,nonflavanoid_phenols,proanthocyanins,
 #       color_intensity,hue,od280/od315_of_diluted_wines,proline
 
+def standardization_features_only(df, list_columns):
+    df2= pd.DataFrame()
+# standardization des colonnes de list_to_norm
+    for col in list_columns:
+        df2[col] = (df[col] - df[col].mean()) / df[col].std()
+
+    return df2
 def predict_wine_type():
 
     files = glob.glob('modele/*.sav')
@@ -48,7 +54,10 @@ def predict_wine_type():
 
 
         dataframe = dataframe[content]
+        standardization_correction = st.radio("Do not forget to standardize your features if you trained your model with standardized features", ["I want to standardize features", "I do not want to standardize features"])
 
+        if standardization_correction == "I want to standardize features":
+            dataframe = standardization_features_only(dataframe,content)
 
         loaded_model = pickle.load(open(f"{model_to_use}", 'rb'))
         y_pred = loaded_model.predict(dataframe)
