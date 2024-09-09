@@ -8,7 +8,7 @@ from sections.classification.model_usage import predict_wine_type
 
 def tab2_content(tab_visit):
     list_choice2=[]
-    st.header("Analyse")
+    st.header("Analysis")
     df = load_and_encode()
     histogram_plot(df)
     # Identify columns of interest based on correlation with the target
@@ -16,8 +16,7 @@ def tab2_content(tab_visit):
 
     correlation_table(df, list_items=liste_col)  #
 
-    explicative_columns(
-        df)  # Return and print the correlation between target and feature with the thershold asked to the user
+    explicative_columns(df)  # Return and print the correlation between target and feature with the thershold asked to the user
 
     list_choice = st.multiselect("Define your features of interest", options=liste_col, default=liste_col)
     # first_check = st.button("Afficher les corrélations")
