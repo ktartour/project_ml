@@ -6,10 +6,10 @@ from sections.classification.Analyse_df import colinearities, explicative_column
 from sections.classification.cnn_model import cnn_modeling
 from sections.classification.model_usage import predict_wine_type
 
-def tab2_content(tab_visit):
+def tab2_content(tab_visit,df_prep):
     list_choice2=[]
     st.header("Analysis")
-    df = load_and_encode()
+    df = df_prep.copy()
     histogram_plot(df)
     # Identify columns of interest based on correlation with the target
     liste_col = list(df.columns[:-1])

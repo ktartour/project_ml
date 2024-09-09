@@ -27,9 +27,9 @@ elif type_data == "Classification":
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Preparation", "Analysis", "play with parameters","Try a CNN","Use your models"])
     with tab1:
 
-        classification_page()
+        df_prep = classification_page()
     with tab2:
-        tab_visit, liste_col, list_choice2, df = tab2_content(tab_visit)
+        tab_visit, liste_col, list_choice2, df = tab2_content(tab_visit,df_prep)
     with tab3:
         tab3_content(tab_visit, liste_col, list_choice2, df)
     with tab4:
