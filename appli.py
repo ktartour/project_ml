@@ -22,6 +22,7 @@ if type_data == "Home":
 
 elif type_data == "Regression":
     regression_page()
+ 
 elif type_data == "Classification":
     tab_visit = "None"
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Preparation", "Analysis", "Play with parameters","Try a CNN","Use your models"])
