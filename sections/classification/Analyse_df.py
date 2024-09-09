@@ -88,17 +88,8 @@ def correlation_table(df,list_items):      #Idem list to ask
 
 def explicative_columns(df):
     # Mise en avant des corrélations supérieures à un seuil donné
-    l=0
-    t=0
-    while t==0:
-        try:
-            threshold = float(threshold)
-            t=1
-        except:
-            threshold = st.text_input(
-                "Let's select features correlating with the target, which threshold to use, between 0 and 1?",
-                "0.5", key=l)
-            l+=1
+    threshold = st.slider("Select the threshold to print features that correlate with the target")
+    threshold = float(threshold)
 
     correlations = df.corr()['target'].drop('target')
     # Initialize the list to store features with high correlation
