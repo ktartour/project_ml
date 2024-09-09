@@ -15,8 +15,10 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.model_selection import cross_val_score
+
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
+
 
 
 def regression_page():
@@ -46,7 +48,9 @@ def regression_page():
     with tabs[0]:
         st.write('# Regression Models')
         st.write('#### Select a file to upload.')
+
         uploaded_file = st.file_uploader(' ', type=['csv', 'txt'], accept_multiple_files=False, key="Laurent")
+
 
         if uploaded_file is not None:
             # Load the data
@@ -588,4 +592,6 @@ def regression_page():
             st.subheader("Polynomial Regression Results")
             poly_results_df = pd.DataFrame([poly_results])
             st.write(poly_results_df)
+
     return
+
