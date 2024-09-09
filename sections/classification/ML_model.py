@@ -116,7 +116,7 @@ def auto_ML_selection(df2):
                 filename = f'modele/{name}.sav'
                 pickle.dump(dict_models[model.__class__.__name__], open(filename, 'wb'))
                 with open(f"modele/{name}_features.txt", "a") as file:
-                    file.write(f"List of features to have in the excel file {dict_models[f"{model.__class__.__name__}_features"]}")
+                    file.write(f"{dict_models[f"{model.__class__.__name__}_features"]}")
                 st.write(f"The modele {model.__class__.__name__} has been saved")
 
             i+=1

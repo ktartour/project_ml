@@ -129,6 +129,6 @@ def colinearities(df, liste_columns):
     vif=vif.sort_values(by="VIF",ascending=False)
     # Afficher les résultats
     st.write(
-        "Calculation of the Variance inflation factor, it is a measure for multicollinearity of the design matrix ")
+        "Calculation of the Variance inflation factor, it is a measure for multicolinearity of the design matrix ")
     st.write(vif)
     return vif
