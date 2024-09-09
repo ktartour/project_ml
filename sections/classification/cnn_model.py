@@ -11,6 +11,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+import pickle
 
 def choice_standardization_features2(df, list_columns):
     df2 = pd.DataFrame()
@@ -55,6 +56,7 @@ def cnn_modeling(df,list_columns):
 
     # Now you have the splits: X_train, X_val, X_test, y_train, y_val, y_test
 
+    list_features_used = list(X_train.columns)              #To save the features used to train this model
     model = Sequential()
 
     # Input layer (number of neurons = number of features in your data)
@@ -115,3 +117,17 @@ def cnn_modeling(df,list_columns):
 
         # Show the plot in Streamlit
         st.pyplot(fig)  # Now we pass the created figure object to Streamlit
+    if st.checkbox("Check to save the CNN model?",key=40):
+
+
+
+        name = st.text_input(f"Which name to save the model: {model.__class__.__name__} (no space admitted yet)")
+        if st.button("Click to validate the name", key=45):
+            filename = f'modele/{name}.sav'
+            pickle.dump(model, open(filename, 'wb'))
+            with open(f"modele/{name}_features.txt", "a") as file:
+                file.write(f"List of features to have in the excel file {list_features_used}")
+            st.write(f"The modele {model.__class__.__name__} has been saved")
+
+    else:
+        st.write("Models not saved")

@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from imblearn.over_sampling import SMOTE
+import pickle
 
 def choice_cut_dataframe(df, list_columns):
     list_col= list_columns +["target"]
@@ -76,7 +77,7 @@ def choice_Balancing(X_train, y_train):
 
 def choice_auto_ML_selection(X_train, X_test, y_train, y_test):
 # Define the parameter grid to search over
-
+    list_features_used = list(X_train.columns)
     models = [
             "LogisticRegression",
             "DecisionTreeClassifier",
@@ -117,7 +118,7 @@ def choice_auto_ML_selection(X_train, X_test, y_train, y_test):
         model=KNeighborsClassifier()
         list_n_neighbors = st.text_input('Enter the list of n neighbors to test ', [3, 5])
         list_n_neighbors = eval(list_n_neighbors)
-        list_weights = st.multiselect("What weights do you want to use?",options=['uniform', 'distance'], default=['uniform', 'distance'])
+        list_weights = st.multiselect("What weights do you want to test/use?",options=['uniform', 'distance'], default=['uniform', 'distance'])
         param_grid = {'KNeighborsClassifier':{
         'n_neighbors': list_n_neighbors, 'weights': list_weights}}
 
@@ -152,40 +153,17 @@ def choice_auto_ML_selection(X_train, X_test, y_train, y_test):
 
                 # Show the plot in Streamlit
             st.pyplot(fig)  # Now we pass the created figure object to Streamlit
+        if st.checkbox("Check to save the model?"):
 
+            i = 30
 
-
-    """for model in models:
-        grid_search = GridSearchCV(estimator=model, param_grid=param_grid[model.__class__.__name__], cv=5, verbose=1, n_jobs=-1)
-        grid_search.fit(X_train, y_train)
-
-        # Get the best parameters and the best model
-        best_params = grid_search.best_params_
-        best_model = grid_search.best_estimator_
-
-        y_pred = best_model.predict(X_test)
-        conf_matrix = confusion_matrix(y_test, y_pred)
-
-        #Print the classification report
-        report_dict = classification_report(y_test, y_pred,output_dict=True)  # Set output_dict=True to return a dictionary
-        df_classification_report = pd.DataFrame(report_dict)
-        st.write(f"The model {model.__class__.__name__} has the following performance:")
-        st.write(df_classification_report)
-        st.write(f"The best parameters for the {model.__class__.__name__} are {best_params}")
-
-        with st.expander("See confusion matrix"):
-
-            # Create a new figure for the confusion matrix
-            fig, ax = plt.subplots()
-            sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", ax=ax)
-            ax.set_xlabel("Predicted Label")
-            ax.set_ylabel("True Label")
-            ax.set_title(f"Confusion Matrix of {model.__class__.__name__}")
-
-            # Show the plot in Streamlit
-            st.pyplot(fig)  # Now we pass the created figure object to Streamlit
-
-        #save the model as a binary avec scikit learn
-        # save the model to disk
-        #filename = f'sample_data/{model.__class__.__name__}.sav'
-        #pickle.dump(model, open(filename, 'wb'))"""
+            name = st.text_input(f"Which name to save the model: {model.__class__.__name__} (no space admitted yet)")
+            if st.button("Click to validate the name", key=i):
+                filename = f'modele/{name}.sav'
+                pickle.dump(best_model, open(filename, 'wb'))
+                with open(f"modele/{name}_features.txt", "a") as file:
+                    file.write(f"List of features to have in the excel file {list_features_used}")
+                st.write(f"The modele {model.__class__.__name__} has been saved")
+            i += 1
+        else:
+            st.write("Models not saved")

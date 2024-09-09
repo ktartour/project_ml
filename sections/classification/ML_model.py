@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from imblearn.over_sampling import SMOTE
+import pickle
 
 def standardization_features(df, list_columns):
     df2= pd.DataFrame()
@@ -48,7 +49,7 @@ def auto_ML_selection(df2):
 # Define the parameter grid to search over
     X_train, X_test, y_train, y_test = split_dataset(df2)
     X_train, y_train = Balancing(X_train, y_train)
-
+    list_features_used = list(X_train.columns)
 
     param_grid = {'LogisticRegression':{
         'max_iter':[10000, 1000, 100, 10], 'solver': ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']},
@@ -70,10 +71,10 @@ def auto_ML_selection(df2):
         KNeighborsClassifier()
     ]
 
-
+    dict_models={}      #Create a dictionnary that will contain the models and features used to build it
 
     for model in models:
-        grid_search = GridSearchCV(estimator=model, param_grid=param_grid[model.__class__.__name__], cv=5, verbose=1, n_jobs=-1)
+        grid_search = GridSearchCV(estimator=model, param_grid=param_grid[model.__class__.__name__], cv=5, verbose=1, n_jobs=-1)        #Use a Grid search to evaluate several combinations of parameters
         grid_search.fit(X_train, y_train)
 
         # Get the best parameters and the best model
@@ -82,6 +83,8 @@ def auto_ML_selection(df2):
 
         y_pred = best_model.predict(X_test)
         conf_matrix = confusion_matrix(y_test, y_pred)
+        dict_models[model.__class__.__name__]=best_model                                #Save the model in the dictionnary
+        dict_models[f"{model.__class__.__name__}_features"]=list_features_used          #Save the features used in the dictionnary
 
         #Print the classification report
         report_dict = classification_report(y_test, y_pred,output_dict=True)  # Set output_dict=True to return a dictionary
@@ -102,7 +105,20 @@ def auto_ML_selection(df2):
             # Show the plot in Streamlit
             st.pyplot(fig)  # Now we pass the created figure object to Streamlit
 
-        #save the model as a binary avec scikit learn
+        #save the model as a binary with scikit learn
         # save the model to disk
-        #filename = f'sample_data/{model.__class__.__name__}.sav'
-        #pickle.dump(model, open(filename, 'wb'))
+    if st.checkbox("Check to save models?"):
+        list_models_to_save = st.multiselect("Which model(s) do you want to save?", options=models)
+        i=20
+        for model in list_models_to_save:
+            name = st.text_input(f"Which name to save the model: {model.__class__.__name__} (no space admitted yet)")
+            if st.button("Click to validate the name",key=i):
+                filename = f'modele/{name}.sav'
+                pickle.dump(dict_models[model.__class__.__name__], open(filename, 'wb'))
+                with open(f"modele/{name}_features.txt", "a") as file:
+                    file.write(f"List of features to have in the excel file {dict_models[f"{model.__class__.__name__}_features"]}")
+                st.write(f"The modele {model.__class__.__name__} has been saved")
+
+            i+=1
+    else:
+        st.write("Models not saved")
