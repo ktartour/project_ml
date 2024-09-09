@@ -1,10 +1,8 @@
-import tensorflow as tf
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
-from sklearn.model_selection import train_test_split
 import streamlit as st
 from tensorflow.keras.utils import to_categorical
-from sections.classification.ML_model import standardization_features
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -126,7 +124,7 @@ def cnn_modeling(df,list_columns):
             filename = f'modele/{name}.sav'
             pickle.dump(model, open(filename, 'wb'))
             with open(f"modele/{name}_features.txt", "a") as file:
-                file.write(f"List of features to have in the excel file {list_features_used}")
+                file.write(f"{list_features_used}")
             st.write(f"The modele {model.__class__.__name__} has been saved")
 
     else:

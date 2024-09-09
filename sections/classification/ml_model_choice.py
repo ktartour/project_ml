@@ -162,7 +162,7 @@ def choice_auto_ML_selection(X_train, X_test, y_train, y_test):
                 filename = f'modele/{name}.sav'
                 pickle.dump(best_model, open(filename, 'wb'))
                 with open(f"modele/{name}_features.txt", "a") as file:
-                    file.write(f"List of features to have in the excel file {list_features_used}")
+                    file.write(f"{list_features_used}")
                 st.write(f"The modele {model.__class__.__name__} has been saved")
             i += 1
         else:

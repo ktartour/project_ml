@@ -25,7 +25,7 @@ elif type_data == "Regression":
  
 elif type_data == "Classification":
     tab_visit = "None"
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Preparation", "Analysis", "play with parameters","Try a CNN","Use your models"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Preparation", "Analysis", "Play with parameters","Try a CNN","Use your models"])
     with tab1:
 
         df_prep = classification_page()
