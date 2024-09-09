@@ -3,8 +3,8 @@ import pandas as pd
 from sections.classification.ML_model import standardization_features, auto_ML_selection
 from sections.classification.ml_model_choice import choice_split_dataset,choice_cut_dataframe,choice_standardization_features,choice_Balancing,choice_auto_ML_selection
 from sections.classification.Analyse_df import colinearities, explicative_columns, load_and_encode,histogram_plot, pairplots,correlation_table
-import streamlit as st
 from sections.classification.cnn_model import cnn_modeling
+from sections.classification.model_usage import predict_wine_type
 
 def tab2_content(tab_visit):
     list_choice2=[]
@@ -29,9 +29,9 @@ def tab2_content(tab_visit):
         list_choice2 = st.multiselect("Refine your features", options=liste_col, default=list_choice)
         df2 = standardization_features(df, list_choice2)
         tab_visit = "tab2"
-        autoML = st.text_input("if you want a fully automated analyse write YES", "NO")
+        autoML = st.checkbox("Check for a fully automated analyses, else move to the next tab")
 
-        if autoML == "YES":
+        if autoML:
             auto_ML_selection(df2)
         else:
             st.write("The autoanalysis will not be done")
@@ -59,3 +59,6 @@ def tab4_content(tab_visit,liste_col,df):
         cnn_modeling(df,liste_col)
     else:
         st.write(f"Start by running the analyse tab")
+
+def tab5_content():
+    predict_wine_type()
