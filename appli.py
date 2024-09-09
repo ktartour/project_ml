@@ -18,6 +18,7 @@ type_data = st.sidebar.radio(
 
 if type_data == "Regression":
     regression_page()
+ 
 elif type_data == "Classification":
     tab_visit = "None"
     tab1, tab2, tab3, tab4 = st.tabs(["Preparation", "Analyse", "play with parameters","Try a CNN"])
