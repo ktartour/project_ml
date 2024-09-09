@@ -122,7 +122,7 @@ def choice_auto_ML_selection(X_train, X_test, y_train, y_test):
         param_grid = {'KNeighborsClassifier':{
         'n_neighbors': list_n_neighbors, 'weights': list_weights}}
 
-    if st.checkbox("Launch de analysis"):
+    if st.checkbox("Launch the analysis"):
 
     # models to test: Logistic Regression, Decision Tree, Random Forest, Support Vector Machine (SVM), Naive Bayes, K-Nearest Neighbors (KNN)
         grid_search = GridSearchCV(estimator=model, param_grid=param_grid[model.__class__.__name__], cv=5, verbose=1, n_jobs=-1)

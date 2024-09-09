@@ -9,7 +9,7 @@ from typing import List, Dict, Tuple, Optional, Any
 def side_bar_nails():
     # Sidebar: Allows the user to upload an image file (PNG, JPG, JPEG)
     st.sidebar.write('#### Select an image to upload.')
-    uploaded_file = st.sidebar.file_uploader('', type=['png', 'jpg', 'jpeg'], accept_multiple_files=False)
+    uploaded_file = st.sidebar.file_uploader('', type=['png', 'jpg', 'jpeg'], accept_multiple_files=False,key="sidebar")
 
     # Sidebar: Confidence threshold slider allows the user to set a minimum confidence level for predictions
     confidence_threshold: float = st.sidebar.slider(
