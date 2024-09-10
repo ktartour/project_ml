@@ -8,11 +8,11 @@ from typing import List, Dict, Tuple, Optional, Any
 
 def side_bar_nails():
     # Sidebar: Allows the user to upload an image file (PNG, JPG, JPEG)
-    st.sidebar.write('#### Select an image to upload.')
-    uploaded_file = st.sidebar.file_uploader('', type=['png', 'jpg', 'jpeg'], accept_multiple_files=False,key="sidebar")
+    st.write('#### Select an image to upload.')
+    uploaded_file = st.file_uploader('', type=['png', 'jpg', 'jpeg'], accept_multiple_files=False,key="sidebar")
 
     # Sidebar: Confidence threshold slider allows the user to set a minimum confidence level for predictions
-    confidence_threshold: float = st.sidebar.slider(
+    confidence_threshold: float = st.slider(
         'Confidence threshold: What is the acceptable confidence level?',
         0.0, 1.0, 0.5, 0.01
     )
@@ -37,7 +37,7 @@ def initalize_variables():
 
 def print_info():
     # Main section: Title of the app and a subheading indicating the output will show an inferenced image
-    st.write('# Nails Detection')
+
     st.write('### Inferenced Image')
 
 
@@ -46,7 +46,7 @@ def print_info():
 def load_image(uploaded_file: Optional[st.runtime.uploaded_file_manager.UploadedFile]) -> Optional[Image.Image]:
     if uploaded_file is None:
         # Load and display a default image if no file is uploaded
-        st.image('https://i8.amplience.net/i/Cosnova/3207001')
+        st.image('https://i8.amplience.net/i/Cosnova/3207001', width=500)
         st.write("## Waiting for an image to be uploaded.")
         return None
     else:
