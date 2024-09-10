@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np
+import cv2
 from PIL import Image
 from typing import List, Dict, Any
 from inference_sdk import InferenceHTTPClient
@@ -86,8 +87,6 @@ def nails_page():
     if st.session_state["run_webcam"]:
         webrtc_streamer(
             key="nails-detection",
-            video_transformer_factory=lambda: VideoTransformer(model_id, confidence_threshold),
-            video_source=0  # Use the default webcam
+            video_transformer_factory=lambda: VideoTransformer(model_id, confidence_threshold)
         )
-
-
+#
