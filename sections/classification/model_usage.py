@@ -72,3 +72,27 @@ def predict_wine_type():
             st.write("Estimation saved")
         else:
             st.write("Estimation not saved")
+
+
+def download_prediction_files():
+    st.write("Available predictions to download:")
+
+    # List of available CSV files in the 'Wine_categorisation' directory
+    list_predictions = glob.glob('Wine_categorisation/*.csv')
+
+    # Multiselect for the user to choose which files to download
+    list_files_to_download = st.multiselect("What file(s) do you want to download", options=list_predictions)
+
+    i = 70
+    for file_down in list_files_to_download:
+        with open(file_down, 'r') as f:
+            file_content = f.read()  # Read the file content
+
+        st.download_button(
+            label=f"Download {file_down} as CSV",
+            data=file_content,  # Pass the file content, not the file path
+            file_name=f"{file_down.split('/')[-1]}",  # Extract file name from path
+            mime="text/csv",
+            key=i
+        )
+        i += 1
