@@ -1,6 +1,6 @@
 import streamlit as st
 from sections.classification.Analyse_df import load_and_encode
-import pandas as pd
+
 def classification_page():
 
     st.write("# Data management")
@@ -8,12 +8,16 @@ def classification_page():
     st.write('#### Select an file to upload.')
     uploaded_file = st.file_uploader('', type=['csv', 'txt'], accept_multiple_files=False, key="Zeyneb")
 
-    st.write(" DataFrame study")
+    st.write("DataFrame study")
     if uploaded_file == None:
         df = load_and_encode()
         df = df.drop(columns=["Unnamed: 0"])
     else:
-        df = pd.read_csv(uploaded_file)
+        df = load_and_encode(uploaded_file)
+        try:
+            df = df.drop(columns=["Unnamed: 0"])
+        except:
+            None
 
     st.dataframe(df)
     st.write("Select columns for analysis")
