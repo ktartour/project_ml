@@ -7,8 +7,8 @@ import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 import os
 
-def load_and_encode():
-    df=pd.read_csv("data/vin.csv")
+def load_and_encode(csv="data/vin.csv"):
+    df=pd.read_csv(csv)
 
     #replace Vin éuilibré par 1, Vin amer par 0 et vin sucré par 2
     df["target"]=df["target"].replace("Vin éuilibré",1)
