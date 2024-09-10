@@ -23,16 +23,20 @@ def tab2_content(tab_visit,df_prep):
     # first_check = st.button("Afficher les corrélations")
     # first_check = st.text_input("Afficher les corrélations")
     if st.checkbox("Print correlations"):
-        st.write("Pairplots for the selected features, dot colors correlate to wine category")
+        st.write("Pairplots for the selected features, dot colors correlate to wine categories")
         pairplots(df, list_choice)
         colinearities(df, list_choice)
 
         list_choice2 = st.multiselect("Refine your features", options=liste_col, default=list_choice)
-        df2 = standardization_features(df, list_choice2)
+
+
         tab_visit = "tab2"
         autoML = st.checkbox("Check for a fully automated analyses, else move to the next tab")
 
         if autoML:
+            df2 = standardization_features(df, list_choice2)
+            st.write("Features are standardized")
+            st.write("## Training of machine learning models")
             auto_ML_selection(df2)
         else:
             st.write("The autoanalysis will not be done")
