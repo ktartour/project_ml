@@ -47,9 +47,9 @@ elif type_data == "NailsDetection":
     with tab1:
         st.write('# Detection of nails from an image')
         uploaded_file,confidence_threshold = side_bar_nails()
-        Prediction, PolygonPoints, nails = initalize_variables()
+        prediction, polygonPoints, nails = initalize_variables()
         print_info()
-        treatment_nails(uploaded_file, confidence_threshold,Prediction,PolygonPoints)
+        treatment_nails(uploaded_file, confidence_threshold,prediction,polygonPoints)
     with tab2:
         # Main section: Title of the app and a subheading indicating the output will show an inferenced video
         st.write('# Detection of nails from a stream')
