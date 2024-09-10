@@ -3,7 +3,7 @@ from sections.classification.Analyse_df import load_and_encode
 import pandas as pd
 def classification_page():
 
-    st.header("Data management")
+    st.write("# Data management")
     # Sidebar file Upload
     st.write('#### Select an file to upload.')
     uploaded_file = st.file_uploader('', type=['csv', 'txt'], accept_multiple_files=False, key="Zeyneb")
