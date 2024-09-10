@@ -6,7 +6,7 @@ def print_images():
     st.write("This brief application aims to develop three methods of machine learning")
     st.write("Firstly, with the **regression**, you can train a model to estimate the progression of diabetes from biological parameters")
     st.write("Secondly, with the **classification**, you can train models to classify wines from their physico-chemical parameters")
-    st.write("Thirdly, with the **NailsDetection** a previously trained model is used to recognize nails from the picture of your choice")
+    st.write("Thirdly, with the **NailsDetection**, a previously trained model is used to recognize nails from the picture/stream of your choice")
     # Load images
     urla= "https://www.inneance.fr/wp-content/uploads/machine_learning-1080x569.jpg"
     urlb ="https://i0.wp.com/eos.org/wp-content/uploads/2020/07/data-streams-eos-august.png?w=820&ssl=1"

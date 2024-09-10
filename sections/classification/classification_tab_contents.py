@@ -4,7 +4,7 @@ from sections.classification.ML_model import standardization_features, auto_ML_s
 from sections.classification.ml_model_choice import choice_split_dataset,choice_cut_dataframe,choice_standardization_features,choice_Balancing,choice_auto_ML_selection
 from sections.classification.Analyse_df import colinearities, explicative_columns, load_and_encode,histogram_plot, pairplots,correlation_table
 from sections.classification.cnn_model import cnn_modeling
-from sections.classification.model_usage import predict_wine_type
+from sections.classification.model_usage import predict_wine_type, download_prediction_files
 
 def tab2_content(tab_visit,df_prep):
     list_choice2=[]
@@ -61,3 +61,4 @@ def tab4_content(tab_visit,liste_col,df):
 
 def tab5_content():
     predict_wine_type()
+    download_prediction_files()
