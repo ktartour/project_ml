@@ -5,20 +5,18 @@ from scipy.stats import shapiro
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-from typing import List, Dict 
+from typing import List, Dict
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, BayesianRidge
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.model_selection import cross_val_score
-
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
-
 
 
 def regression_page():
@@ -28,13 +26,11 @@ def regression_page():
             st.session_state['data'] = pd.read_csv(file)
         return st.session_state['data']
 
-
     # Function to update the columns in st.session_state
     def update_columns(df: pd.DataFrame, new_columns: List[str]) -> None:
         df.columns = new_columns
         st.session_state['renamed'] = True
         st.session_state['data'] = df
-
 
     # Configuration of the interface with tabs
     tabs = st.tabs(["Upload File",
@@ -51,18 +47,16 @@ def regression_page():
 
         uploaded_file = st.file_uploader(' ', type=['csv', 'txt'], accept_multiple_files=False, key="Laurent")
 
-
         if uploaded_file is not None:
             # Load the data
             df: pd.DataFrame = load_data(uploaded_file)
             st.success('File uploaded successfully.')
-            
+
         # URL of the image
         image_url: str = 'https://miro.medium.com/v2/resize:fit:3960/format:webp/1*Cgqkt7lTWELcNV4v3KYsRw.png'
 
         # Display the image across the full width of the page
         st.image(image_url, use_column_width=True)
-
 
     # Second tab: DataFrame Analysis
     with tabs[1]:
@@ -103,7 +97,7 @@ def regression_page():
                         'After': new_names
                     })
                     st.write(col_mapping)
-                    
+
                     # Add "Validate" and "Do Not Validate" buttons
                     col1, col2 = st.columns(2)
                     with col1:
@@ -114,7 +108,7 @@ def regression_page():
                     with col2:
                         if st.button("Do Not Validate"):
                             st.session_state['button_clicked'] = True
-                            
+
             # If any button was clicked, display the following sections
             if st.session_state.get('button_clicked', False):
 
@@ -238,7 +232,7 @@ def regression_page():
                     'Robust Standardization': 'Yes' if standardization_robust else 'No'
                 })
 
-        # Creating a DataFrame for standardization results
+            # Creating a DataFrame for standardization results
             df_standardization: pd.DataFrame = pd.DataFrame(standardization_results)
             st.write(df_standardization)
 
@@ -299,10 +293,12 @@ def regression_page():
             threshold: float = st.slider('Select correlation threshold:', 0.0, 1.0, 0.4)
             st.subheader("Correlations Above the Threshold")
             correlations: pd.Series = df.corr()['target'].drop('target')
-            features_above_threshold: dict[str, float] = {feature: correlation for feature, correlation in correlations.items() if abs(correlation) > threshold}
+            features_above_threshold: dict[str, float] = {feature: correlation for feature, correlation in
+                                                          correlations.items() if abs(correlation) > threshold}
 
             if features_above_threshold:
-                correlation_df: pd.DataFrame = pd.DataFrame(list(features_above_threshold.items()), columns=['Feature', 'Correlation']).set_index('Feature')
+                correlation_df: pd.DataFrame = pd.DataFrame(list(features_above_threshold.items()),
+                                                            columns=['Feature', 'Correlation']).set_index('Feature')
                 st.write(correlation_df)
             else:
                 st.write("No correlations above the selected threshold.")
@@ -361,7 +357,7 @@ def regression_page():
             # Creating a new DataFrame with the selected features
             df_selected: pd.DataFrame = df[selected_features]
 
-        # Displaying the updated DataFrame (only the first few rows)
+            # Displaying the updated DataFrame (only the first few rows)
             st.subheader("Updated DataFrame")
             st.write(df_selected.head())
 
@@ -387,6 +383,7 @@ def regression_page():
                 ('Linear Regression', LinearRegression()),
                 ('Ridge', Ridge()),
                 ('Lasso', Lasso()),
+                ('Bayesian Ridge Regression', BayesianRidge()),
                 ('ElasticNet', ElasticNet()),
                 ('Decision Tree', DecisionTreeRegressor()),
                 ('SVR', SVR())
@@ -441,12 +438,12 @@ def regression_page():
                 rmse = np.sqrt(mean_squared_error(y_test, y_pred))
                 r2 = r2_score(y_test, y_pred)
                 mae = mean_absolute_error(y_test, y_pred)
-                
+
                 # Cross-validation
                 rmse_cv = -cross_val_score(model, X, y, cv=cv_folds, scoring='neg_root_mean_squared_error')
                 r2_cv = cross_val_score(model, X, y, cv=cv_folds, scoring='r2')
                 mae_cv = -cross_val_score(model, X, y, cv=cv_folds, scoring='neg_mean_absolute_error')
-                
+
                 poly_results.append({
                     'Degree': degree,
                     'RMSE': rmse,
@@ -456,14 +453,13 @@ def regression_page():
                     'Cross-Validated R2': r2_cv.mean(),
                     'Cross-Validated MAE': mae_cv.mean()
                 })
-            
+
             # Display polynomial regression results as a table
             st.subheader("Polynomial Regression Results")
             poly_results_df = pd.DataFrame(poly_results)
             st.write(poly_results_df)
-            
-    with tabs[5]:
 
+    with tabs[5]:
 
         if uploaded_file is not None:
             st.subheader("Looking for best parameters")
@@ -495,8 +491,10 @@ def regression_page():
                 ('Linear Regression', LinearRegression(), {}),
                 ('Ridge', Ridge(), {'alpha': [0.1, 1.0, 10.0]}),
                 ('Lasso', Lasso(), {'alpha': [0.1, 1.0, 10.0]}),
+                ('Bayesian Ridge Regression', BayesianRidge(), {'alpha_1': [0.1, 1.0, 10.0]}),
                 ('ElasticNet', ElasticNet(), {'alpha': [0.1, 1.0, 10.0], 'l1_ratio': [0.1, 0.5, 0.9]}),
-                ('Decision Tree', DecisionTreeRegressor(), {'max_depth': [None, 10, 20, 30], 'min_samples_split': [2, 5, 10]}),
+                ('Decision Tree', DecisionTreeRegressor(),
+                 {'max_depth': [None, 10, 20, 30], 'min_samples_split': [2, 5, 10]}),
                 ('SVR', SVR(), {'C': [0.1, 1.0, 10.0], 'gamma': ['scale', 'auto']})
             ]
 
@@ -505,7 +503,7 @@ def regression_page():
             for name, model, param_grid in models:
                 grid_search = GridSearchCV(model, param_grid, cv=cv_folds_gs, scoring=scoring_metric, n_jobs=-1)
                 grid_search.fit(X_train, y_train)
-                
+
                 best_model = grid_search.best_estimator_
                 y_pred: np.ndarray = best_model.predict(X_test)
 
@@ -515,9 +513,11 @@ def regression_page():
                 mae: float = mean_absolute_error(y_test, y_pred)
 
                 # Cross-validation
-                rmse_cv: np.ndarray = -cross_val_score(best_model, X, y, cv=cv_folds_gs, scoring='neg_root_mean_squared_error')
+                rmse_cv: np.ndarray = -cross_val_score(best_model, X, y, cv=cv_folds_gs,
+                                                       scoring='neg_root_mean_squared_error')
                 r2_cv: np.ndarray = cross_val_score(best_model, X, y, cv=cv_folds_gs, scoring='r2')
-                mae_cv: np.ndarray = -cross_val_score(best_model, X, y, cv=cv_folds_gs, scoring='neg_mean_absolute_error')
+                mae_cv: np.ndarray = -cross_val_score(best_model, X, y, cv=cv_folds_gs,
+                                                      scoring='neg_mean_absolute_error')
 
                 # Storing the results
                 results.append({
@@ -534,8 +534,6 @@ def regression_page():
             # Creating a DataFrame to display the results
             df_results: pd.DataFrame = pd.DataFrame(results)
             st.write(df_results)
-            
-
 
             st.subheader("Polynomial Regression")
 
@@ -594,4 +592,3 @@ def regression_page():
             st.write(poly_results_df)
 
     return
-
