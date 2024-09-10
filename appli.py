@@ -26,7 +26,7 @@ elif type_data == "Regression":
  
 elif type_data == "Classification":
     tab_visit = "None"
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Preparation", "Analysis", "Play with parameters","Try a CNN","Use your models"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Preparation", "Analysis", "Play with parameters","Try a DNN","Use your models"])
     with tab1:
 
         df_prep = classification_page()
@@ -35,7 +35,7 @@ elif type_data == "Classification":
     with tab3:
         tab3_content(tab_visit, liste_col, list_choice2, df)
     with tab4:
-        st.header("Try a CNN")
+        st.header("Try a DNN")
         tab4_content(tab_visit,list_choice2, df)
     with tab5:
         st.header("Use the models you have trained")

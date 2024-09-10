@@ -14,12 +14,12 @@ import pickle
 def choice_standardization_features2(df, list_columns):
     df2 = pd.DataFrame()
 
-    if st.checkbox("Standardize some columns for CNN?"):
-        if st.checkbox("Standardize all columns for CNN?"):
+    if st.checkbox("Standardize some columns for fully connected (dense) neural networks (DNN)?"):
+        if st.checkbox("Standardize all columns for DNN?"):
             for col in list_columns:
                df2[col] = (df[col] - df[col].mean()) / df[col].std()
         else:
-            list_col_to_std = st.multiselect("Define the features to standardize for CNN", options=list_columns,
+            list_col_to_std = st.multiselect("Define the features to standardize for DNN", options=list_columns,
                                               default=list_columns)
             for col in list_col_to_std:
                 df2[col] = (df[col] - df[col].mean()) / df[col].std()
@@ -27,9 +27,9 @@ def choice_standardization_features2(df, list_columns):
         df2 = df.copy()
     df2["target"]=df["target"]
     return df2
-def cnn_modeling(df,list_columns):
+def dnn_modeling(df,list_columns):
     df_norm = choice_standardization_features2(df, list_columns)
-    #Select parameter for the CNN, number of layers, number of neurons, type of activation function
+    #Select parameter for the DNN, number of layers, number of neurons, type of activation function
     nb_of_layers = st.slider('How many layers of neurons?',
         4, 8, 4,1
     )
@@ -115,7 +115,7 @@ def cnn_modeling(df,list_columns):
 
         # Show the plot in Streamlit
         st.pyplot(fig)  # Now we pass the created figure object to Streamlit
-    if st.checkbox("Check to save the CNN model?",key=40):
+    if st.checkbox("Check to save the DNN model?",key=40):
 
 
 
