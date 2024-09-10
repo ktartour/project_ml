@@ -61,7 +61,7 @@ def treatment_nails(uploaded_file,confidence_threshold,Prediction,PolygonPoints)
     # Proceed only if an image is loaded (either uploaded or default)
     if nails is not None:
         # Initialize the inference client to communicate with the Roboflow API
-        CLIENT: InferenceHTTPClient = InferenceHTTPClient(
+        CLIENT = InferenceHTTPClient(
             api_url="https://detect.roboflow.com",
             api_key="yVnoBqLgjl2tRxWIWMvx"
         )
