@@ -22,14 +22,14 @@ def predict_wine_type():
     features_to_have = model_to_use.replace(".sav", "_features.txt")
     with open(features_to_have, "r") as file:
         content = file.read()
-        st.write(f"The excel file should have at least the columns {content}")
+        st.write(f"To predict the wine category your file should have at least the columns {content}")
         content = ast.literal_eval(content)
 
 
     uploaded_file = st.file_uploader('Select a csv file for wine analysis', type=['csv'], accept_multiple_files=False)
     if uploaded_file is not None:
         dataframe = pd.read_csv(uploaded_file)
-        st.write("The downloaded data are the following:")
+        st.write("A glimpse of your data:")
         st.write(dataframe.head(5))
         i=60
         for col in content:
